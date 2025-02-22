@@ -1,17 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.tsx";
-import Navbar from "./components/Navbar.tsx";
-import { Outlet } from "react-router-dom";
-import Footer from "./components/Footer.tsx";
+import AppRoutes from "./routes/index.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Navbar />
-    <App>
-      <Outlet />
-    </App>
-    <Footer />
+    <AppRoutes />
   </StrictMode>
 );
