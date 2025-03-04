@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@source "./public/*.{html,js}";
+@plugin "daisyui";
+
+@theme {
+  --color-my-orange: #f7c166;
+  --color-my-dark: #1b213a;
+  --color-my-red: #be412d;
+  --color-my-red-hover: #d85540;
+}

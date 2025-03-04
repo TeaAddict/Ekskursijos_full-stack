@@ -1,9 +1,9 @@
-import LoginSection from "./LoginSection";
+import LoginSection from "../LoginSection";
 import Navbar from "./Navbar";
 
 const Header = () => {
   return (
-    <div>
+    <div className="flex justify-around p-5 border-b-[1px]">
       <Navbar />
       <LoginSection />
     </div>

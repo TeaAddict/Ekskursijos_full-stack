@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 
 function App() {
   return (
-    <div className="min-h-screen grid grid-rows-[auto_1fr_auto] p-4">
+    <div className="min-h-screen grid grid-rows-[auto_1fr_auto] bg-my-orange text-my-dark">
       <Header />
       <Outlet />
       <Footer />
