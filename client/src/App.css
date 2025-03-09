@@ -3,6 +3,8 @@
 @plugin "daisyui";
 
 @theme {
+  --font-my-nunito: "Nunito Sans", sans-serif;
+
   --color-my-orange: #f7c166;
   --color-my-dark: #1b213a;
   --color-my-red: #be412d;

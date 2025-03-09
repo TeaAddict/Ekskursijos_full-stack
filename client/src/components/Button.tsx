@@ -1,14 +1,9 @@
 interface Props {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
-const Button: React.FC<Props> = ({
-  children,
-  onClick = () => {
-    console.log("click");
-  },
-}) => {
+const Button: React.FC<Props> = ({ children, onClick = () => {} }) => {
   return (
     <button
       onClick={onClick}

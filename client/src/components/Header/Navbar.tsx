@@ -12,6 +12,14 @@ const Navbar = () => {
         Home
       </NavLink>
       <NavLink
+        to="/trips"
+        className={({ isActive }) =>
+          `hover:text-white ${isActive ? "text-white" : ""}`
+        }
+      >
+        Trips
+      </NavLink>
+      <NavLink
         to="/about"
         className={({ isActive }) =>
           `hover:text-white ${isActive ? "text-white" : ""}`
