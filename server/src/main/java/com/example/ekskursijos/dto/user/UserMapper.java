@@ -18,7 +18,7 @@ public class UserMapper {
 
   public User toUser(LoginUserRequest createUserRequest) {
     User user = new User();
-    user.setUsername(createUserRequest.username());
+    user.setEmail(createUserRequest.email());
     user.setPassword(createUserRequest.password());
     return user;
   }

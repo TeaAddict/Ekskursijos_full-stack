@@ -1,24 +1,51 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse, isAxiosError } from "axios";
 
-const postRegister = async (data: { username: string; password: string }) => {
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_BACK_URL || "http://localhost:8080",
+  headers: { "Content-Type": "application/json" },
+  timeout: 10000,
+  // withCredentials: true,
+});
+
+interface RegisterResponse {
+  token: string;
+  userId?: string;
+}
+
+interface ErrorResponse {
+  [key: string]: string | undefined;
+  timestamp?: string;
+  status?: string;
+  error?: string;
+  message?: string;
+  path?: string;
+}
+
+/**
+ * Posts register credentials to the backend and returns the response data.
+ * @param data - The register credentials (email, username and password)
+ * @returns The register response data (e.g., token)
+ * @throws Error if the request fails
+ */
+const postRegister = async (data: {
+  email: string;
+  username: string;
+  password: string;
+}): Promise<RegisterResponse> => {
   try {
-    const url = import.meta.env.VITE_URL;
-
-    const res = await axios.post(`${url + "/api/register"}`, data, {
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (res.status == 201) {
-      return res.data;
-    }
-
-    throw new Error(`${res.status}`);
+    const response: AxiosResponse<RegisterResponse> = await apiClient.post(
+      "/api/register",
+      data
+    );
+    return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error("Axios Error:", error.response?.data || error.message);
-    } else {
-      console.error("Unexpected Error:", (error as Error).message);
+    if (isAxiosError(error)) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      throw axiosError.response?.data;
     }
+
+    const otherError = error as Error;
+    throw { error: otherError.message };
   }
 };
 

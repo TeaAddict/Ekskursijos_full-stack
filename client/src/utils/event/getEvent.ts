@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const getTrip = async () => {
+const getEvent = async () => {
   try {
-    const url = import.meta.env.VITE_URL;
+    const url = import.meta.env.VITE_BACK_URL;
 
     const res = await axios.get(`${url + "/api/trip"}`);
 
@@ -20,4 +20,4 @@ const getTrip = async () => {
   }
 };
 
-export default getTrip;
+export default getEvent;

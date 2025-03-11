@@ -9,12 +9,11 @@ import com.example.ekskursijos.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -49,7 +48,7 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> loginUser(@Valid @RequestBody LoginUserRequest userRequest) {
+  public ResponseEntity<Map<String, String>> loginUser(@Valid @RequestBody LoginUserRequest userRequest) {
     return ResponseEntity.ok(userService.loginUser(userRequest));
   }
 }

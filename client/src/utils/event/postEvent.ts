@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const postTrip = async (data: { username: string; password: string }) => {
+const postEvent = async (data: { username: string; password: string }) => {
   try {
-    const url = import.meta.env.VITE_URL;
+    const url = import.meta.env.VITE_BACK_URL;
 
     const res = await axios.post(`${url + "/api/trip"}`, data, {
       headers: { "Content-Type": "application/json" },
@@ -22,4 +22,4 @@ const postTrip = async (data: { username: string; password: string }) => {
   }
 };
 
-export default postTrip;
+export default postEvent;

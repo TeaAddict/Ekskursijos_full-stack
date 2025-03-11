@@ -1,9 +1,10 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "./Button";
 import postLogin from "../utils/user/postLogin";
+import toast from "react-hot-toast";
 
 type Inputs = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -15,32 +16,42 @@ export default function LoginForm() {
     reset,
   } = useForm<Inputs>({
     defaultValues: {
-      username: "username123",
-      password: "password123",
+      email: "email123@gmail.com",
+      password: "Email123",
     },
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await postLogin(data);
-    reset();
+    try {
+      const loginData = await postLogin(data);
+
+      if (loginData) {
+        localStorage.setItem("token", loginData.token);
+        reset();
+        toast.success("Successfully logged in!");
+      }
+    } catch (error) {
+      console.error("Login error:", (error as Error).message);
+      toast.error((error as Error).message);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="flex flex-col">
         <input
-          {...register("username", {
-            required: { value: true, message: "Username is required" },
+          {...register("email", {
+            required: { value: true, message: "Email is required" },
             minLength: {
               value: 8,
-              message: "Username must be atleast 8 characters long",
+              message: "email must be atleast 8 characters long",
             },
           })}
-          placeholder="Username"
+          placeholder="email"
           className="border-2 rounded-md p-1"
         />
-        {errors.username && (
-          <span className="text-red-500">{errors.username.message}</span>
+        {errors.email && (
+          <span className="text-red-500">{errors.email.message}</span>
         )}
       </div>
 

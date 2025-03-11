@@ -3,6 +3,8 @@ package com.example.ekskursijos.service;
 import com.example.ekskursijos.dto.user.LoginUserRequest;
 import com.example.ekskursijos.dto.user.UserMapper;
 import com.example.ekskursijos.dto.user.CreateUserRequest;
+import com.example.ekskursijos.exception.CredentialsInvalidException;
+import com.example.ekskursijos.exception.EmailAlreadyExistsException;
 import com.example.ekskursijos.exception.UserDoesNotExistsException;
 import com.example.ekskursijos.exception.UsernameAlreadyExistsException;
 import com.example.ekskursijos.model.Role;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -48,11 +51,11 @@ public class UserService {
     User user = userMapper.toUser(createUserRequest);
 
     if (userRepository.existsByEmail(createUserRequest.email())) {
-      throw new UsernameAlreadyExistsException("Email already exists.");
+      throw new EmailAlreadyExistsException("email", "Email already exists.");
     }
 
     if (userRepository.existsByUsername(createUserRequest.username())) {
-      throw new UsernameAlreadyExistsException("Username already exists.");
+      throw new UsernameAlreadyExistsException("username", "Username already exists.");
     }
 
     Role roleUser = roleRepository.findByName("USER").orElseThrow();
@@ -62,15 +65,18 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public String loginUser(LoginUserRequest loginUserRequest) {
+  public Map<String, String> loginUser(LoginUserRequest loginUserRequest) {
 
-    Optional<User> user = userRepository.findByUsername(loginUserRequest.username());
+    Optional<User> user = userRepository.findByEmail(loginUserRequest.email());
 
     if (user.isEmpty()) {
-      throw new UserDoesNotExistsException("User does not exist");
+      throw new CredentialsInvalidException("Invalid credentials");
     }
 
+    if (!passwordEncoder.matches(loginUserRequest.password(), user.get().getPassword())) {
+      throw new CredentialsInvalidException("Invalid credentials");
+    }
 
-    return tokenService.generateToken(user.get());
+    return Map.of("token", tokenService.generateToken(user.get()));
   }
 }

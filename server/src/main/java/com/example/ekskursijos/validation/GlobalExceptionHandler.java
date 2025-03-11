@@ -1,5 +1,6 @@
 package com.example.ekskursijos.validation;
 
+import com.example.ekskursijos.exception.CredentialsInvalidException;
 import com.example.ekskursijos.exception.EmailAlreadyExistsException;
 import com.example.ekskursijos.exception.UserDoesNotExistsException;
 import com.example.ekskursijos.exception.UsernameAlreadyExistsException;
@@ -29,17 +30,21 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(EmailAlreadyExistsException.class)
   public ResponseEntity<Map<String, String>> handleEmailAlreadyExists(EmailAlreadyExistsException e) {
-    return new ResponseEntity<>(Map.of("Error", e.getMessage()), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(Map.of(e.getKey(), e.getMessage()), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(UsernameAlreadyExistsException.class)
   public ResponseEntity<Map<String, String>> handleUsernameAlreadyExists(UsernameAlreadyExistsException e) {
-    return new ResponseEntity<>(Map.of("Error", e.getMessage()), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(Map.of(e.getKey(), e.getMessage()), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(UserDoesNotExistsException.class)
   public ResponseEntity<Map<String, String>> handleUsernameAlreadyExists(UserDoesNotExistsException e) {
-    return new ResponseEntity<>(Map.of("Error", e.getMessage()), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
   }
-  
+
+  @ExceptionHandler(CredentialsInvalidException.class)
+  public ResponseEntity<Map<String, String>> handleUsernameAlreadyExists(CredentialsInvalidException e) {
+    return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
+  }
 }
