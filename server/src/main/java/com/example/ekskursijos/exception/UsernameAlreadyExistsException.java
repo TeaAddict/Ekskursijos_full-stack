@@ -4,14 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class UsernameAlreadyExistsException extends RuntimeException {
-  private final String key;
-
-  public UsernameAlreadyExistsException(String key, String message) {
-    super(message);
-    this.key = key;
-  }
+  private final String key = "username";
 
   public UsernameAlreadyExistsException(String message) {
-    this("error", message);
+    super(message);
   }
 }

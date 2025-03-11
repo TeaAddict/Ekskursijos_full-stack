@@ -51,11 +51,11 @@ public class UserService {
     User user = userMapper.toUser(createUserRequest);
 
     if (userRepository.existsByEmail(createUserRequest.email())) {
-      throw new EmailAlreadyExistsException("email", "Email already exists.");
+      throw new EmailAlreadyExistsException("Email already exists.");
     }
 
     if (userRepository.existsByUsername(createUserRequest.username())) {
-      throw new UsernameAlreadyExistsException("username", "Username already exists.");
+      throw new UsernameAlreadyExistsException("Username already exists.");
     }
 
     Role roleUser = roleRepository.findByName("USER").orElseThrow();

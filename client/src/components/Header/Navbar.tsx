@@ -27,6 +27,14 @@ const Navbar = () => {
       >
         About
       </NavLink>
+      <NavLink
+        to="/admin"
+        className={({ isActive }) =>
+          `hover:text-white ${isActive ? "text-white" : ""}`
+        }
+      >
+        Admin
+      </NavLink>
     </nav>
   );
 };
